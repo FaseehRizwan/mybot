@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome Command</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>MyBot Panel</h1>
+        <nav>
+            <a href="../dashboard.html">Dashboard</a>
+            <a href="../about.html">About</a>
+            <a href="../plugins.html">Plugins</a>
+            <a href="../settings.html">Settings</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="plugin-settings">
+        <h2>🔧 Welcome Command Settings</h2>
+    
+        <form id="welcomeForm">
+            <label for="enabled">
+                <input type="checkbox" id="enabled"> Enable Command
+            </label>
+            <br><br>
+    
+            <label for="message1">Welcome Message 1:</label><br>
+            <textarea id="message1" rows="4" cols="50"></textarea><br><br>
+    
+            <label for="message2">Welcome Message 2:</label><br>
+            <textarea id="message2" rows="4" cols="50"></textarea><br><br>
+    
+            <label for="message3">Welcome Message 3:</label><br>
+            <textarea id="message3" rows="4" cols="50"></textarea><br><br>
+    
+            <label for="message4">Welcome Message 4:</label><br>
+            <textarea id="message4" rows="4" cols="50"></textarea><br><br>
+    
+            <label for="message5">Welcome Message 5:</label><br>
+            <textarea id="message5" rows="4" cols="50"></textarea><br><br>
+    
+            <label for="message6">Welcome Message 6:</label><br>
+            <textarea id="message6" rows="4" cols="50"></textarea><br><br>
+    
+            <button type="submit">💾 Save Changes</button>
+        </form>
+    </div>
+    
+    </main>
+
+    <footer>
+        &copy; 2025 MyBot Panel | Built with ❤️ by Faseeh
+    </footer>
+    <script>
+    const currentPath = window.location.pathname;
+    document.querySelectorAll("nav a").forEach(link => {
+        if (link.getAttribute("href") === currentPath) {
+            link.classList.add("active");
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        fetch('json/welcome.json')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('enabled').checked = data.enabled;
+                document.getElementById('message1').value = data.welcomeMessages[0];
+                document.getElementById('message2').value = data.welcomeMessages[1];
+                document.getElementById('message3').value = data.welcomeMessages[2];
+                document.getElementById('message4').value = data.welcomeMessages[3];
+                document.getElementById('message5').value = data.welcomeMessages[4];
+                document.getElementById('message6').value = data.welcomeMessages[5];
+            });
+
+        document.getElementById('welcomeForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const updatedConfig = {
+                enabled: document.getElementById('enabled').checked,
+                welcomeMessages: [
+                    document.getElementById('message1').value,
+                    document.getElementById('message2').value,
+                    document.getElementById('message3').value,
+                    document.getElementById('message4').value,
+                    document.getElementById('message5').value,
+                    document.getElementById('message6').value
+                ]
+            };
+
+            const res = await fetch('/update-json/welcome', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updatedConfig)
+            });
+
+            if (res.ok) {
+                alert("✅ Settings updated!");
+            } else {
+                alert("❌ Failed to save settings.");
+            }
+        });
+    });
+    </script>
+</body>
+</html>

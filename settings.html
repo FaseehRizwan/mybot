@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Roles and Config</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<script>
+    const currentPath = window.location.pathname;
+    document.querySelectorAll("nav a").forEach(link => {
+        if (link.getAttribute("href") === currentPath) {
+            link.classList.add("active");
+        }
+    });
+</script>
+
+<body>
+    <header>
+        <h1>MyBot Panel</h1>
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="about.html">About</a>
+            <a href="plugins.html">Plugins</a>
+            <a href="settings.html">Settings</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Manage Roles Section -->
+        <h1>Manage Roles</h1>
+        <table id="rolesTable" class="table">
+            <thead>
+                <tr>
+                    <th>Number</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be dynamically added here -->
+            </tbody>
+        </table>
+        <div class="button-group">
+            <button class="btn add-role-btn" onclick="addRow()">Add New Role</button>
+            <button class="btn save-btn" onclick="saveRoles()">Save</button>
+        </div>
+
+        <!-- Manage Config Section -->
+        <h1>Manage Role Commands</h1>
+        <table id="commandsTable" class="table">
+            <thead>
+                <tr>
+                    <th>Role</th>
+                    <th>Commands</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be dynamically added here -->
+            </tbody>
+        </table>
+        <div class="button-group">
+            <button class="btn add-command-btn" onclick="addCommandRow()">Add New Role</button>
+            <button class="btn save-commands-btn" onclick="saveCommands()">Save</button>
+        </div>
+
+        <!-- Read-Only Allowed Groups -->
+        <h1>Allowed Groups</h1>
+        <ul id="allowedGroupsList">
+            <!-- Groups will be dynamically added here -->
+        </ul>
+    </main>
+
+    <footer>
+        &copy; 2025 MyBot Panel | Built with ❤️ by Faseeh
+    </footer>
+
+    <script>
+        const rolesTable = document.getElementById('rolesTable').querySelector('tbody');
+        const commandsTable = document.getElementById('commandsTable').querySelector('tbody');
+        const allowedGroupsList = document.getElementById('allowedGroupsList');
+        let roles = {};
+        let config = {};
+
+        // Fetch roles from the server
+        async function fetchRoles() {
+            const response = await fetch('/roles');
+            roles = await response.json();
+            renderRolesTable();
+        }
+
+        // Fetch config from the server
+        async function fetchConfig() {
+            const response = await fetch('/config');
+            config = await response.json();
+            renderCommandsTable();
+            renderAllowedGroups();
+        }
+
+        // Render the roles table
+        function renderRolesTable() {
+            rolesTable.innerHTML = '';
+            for (const [number, role] of Object.entries(roles)) {
+                const displayNumber = number.replace('@s.whatsapp.net', ''); // Remove @c.us for display
+                addRowToTable(displayNumber, role);
+            }
+        }
+
+        // Render the commands table
+        function renderCommandsTable() {
+            commandsTable.innerHTML = '';
+            for (const [role, data] of Object.entries(config.roles)) {
+                addCommandRowToTable(role, data.allowedCommands);
+            }
+        }
+
+        // Render the allowed groups list
+        function renderAllowedGroups() {
+            allowedGroupsList.innerHTML = '';
+            config.allowedGroups.forEach(group => {
+                const listItem = document.createElement('li');
+                listItem.textContent = group;
+                allowedGroupsList.appendChild(listItem);
+            });
+        }
+
+        // Add a row to the roles table
+        function addRowToTable(number = '', role = '') {
+            const row = document.createElement('tr');
+
+            // Number column
+            const numberCell = document.createElement('td');
+            const numberInput = document.createElement('input');
+            numberInput.type = 'text';
+            numberInput.value = number;
+            numberInput.placeholder = 'Enter number';
+            numberInput.oninput = () => {
+                // Ensure only digits are entered
+                numberInput.value = numberInput.value.replace(/\D/g, '');
+            };
+            numberCell.appendChild(numberInput);
+            row.appendChild(numberCell);
+
+            // Role column
+            const roleCell = document.createElement('td');
+            const roleSelect = document.createElement('select');
+            ['master', 'admin', 'member', 'vip', ''].forEach(r => {
+                const option = document.createElement('option');
+                option.value = r;
+                option.textContent = r || 'Select Role';
+                if (r === role) option.selected = true;
+                roleSelect.appendChild(option);
+            });
+            roleCell.appendChild(roleSelect);
+            row.appendChild(roleCell);
+
+            // Actions column
+            const actionsCell = document.createElement('td');
+            const removeButton = document.createElement('button');
+            removeButton.textContent = 'Remove';
+            removeButton.className = 'btn btn-danger';
+            removeButton.onclick = () => row.remove();
+            actionsCell.appendChild(removeButton);
+            row.appendChild(actionsCell);
+
+            rolesTable.appendChild(row);
+        }
+
+        // Add a row to the commands table
+        function addCommandRowToTable(role = '', commands = []) {
+            const row = document.createElement('tr');
+
+            // Role column
+            const roleCell = document.createElement('td');
+            const roleInput = document.createElement('input');
+            roleInput.type = 'text';
+            roleInput.value = role;
+            roleInput.placeholder = 'Enter role';
+            roleCell.appendChild(roleInput);
+            row.appendChild(roleCell);
+
+            // Commands column
+            const commandsCell = document.createElement('td');
+            const commandsInput = document.createElement('input');
+            commandsInput.type = 'text';
+            commandsInput.value = commands.join(', ');
+            commandsInput.placeholder = 'Enter commands (comma-separated)';
+            commandsCell.appendChild(commandsInput);
+            row.appendChild(commandsCell);
+
+            // Actions column
+            const actionsCell = document.createElement('td');
+            const removeButton = document.createElement('button');
+            removeButton.textContent = 'Remove';
+            removeButton.className = 'btn btn-danger';
+            removeButton.onclick = () => row.remove();
+            actionsCell.appendChild(removeButton);
+            row.appendChild(actionsCell);
+
+            commandsTable.appendChild(row);
+        }
+
+        // Add a new empty row to the roles table
+        function addRow() {
+            addRowToTable();
+        }
+
+        // Add a new empty row to the commands table
+        function addCommandRow() {
+            addCommandRowToTable();
+        }
+
+        // Save roles to the server
+        async function saveRoles() {
+            const updatedRoles = {};
+            Array.from(rolesTable.children).forEach(row => {
+                const number = row.children[0].querySelector('input').value.trim();
+                const role = row.children[1].querySelector('select').value;
+                if (number && role) {
+                    updatedRoles[`${number}@s.whatsapp.net`] = role; // Append @c.us to the number
+                }
+            });
+
+            const response = await fetch('/update-roles', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updatedRoles)
+            });
+
+            if (response.ok) {
+                alert('Roles updated successfully!');
+                location.reload();
+            } else {
+                alert('Failed to update roles.');
+            }
+        }
+
+        // Save commands to the server
+        async function saveCommands() {
+            const updatedConfig = { ...config, roles: {} };
+            Array.from(commandsTable.children).forEach(row => {
+                const role = row.children[0].querySelector('input').value.trim();
+                const commands = row.children[1].querySelector('input').value.split(',').map(cmd => cmd.trim());
+                if (role && commands.length) {
+                    updatedConfig.roles[role] = { allowedCommands: commands };
+                }
+            });
+
+            const response = await fetch('/update-config', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updatedConfig)
+            });
+
+            if (response.ok) {
+                alert('Config updated successfully!');
+                location.reload();
+            } else {
+                alert('Failed to update config.');
+            }
+        }
+
+        // Load roles and config on page load
+        fetchRoles();
+        fetchConfig();
+    </script>
+</body>
+</html>

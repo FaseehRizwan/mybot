@@ -1,0 +1,40 @@
+{
+    "prefix": "!",
+    "allowedGroups": [
+        "120363418453951835@g.us",
+        "923119111554@s.whatsapp.net"
+    ],
+    "roles": {
+        "master": {
+            "allowedCommands": [
+                "kick",
+                "help",
+                "tagall",
+                "all",
+                "link",
+                "add",
+                "news",
+                "define"
+            ]
+        },
+        "admin": {
+            "allowedCommands": [
+                "kick",
+                "mute",
+                "help"
+            ]
+        },
+        "member": {
+            "allowedCommands": [
+                "help"
+            ]
+        },
+        "vip": {
+            "allowedCommands": [
+                "kick",
+                "mute",
+                "help"
+            ]
+        }
+    }
+}

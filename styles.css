@@ -1,0 +1,382 @@
+/* Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #0f0f0f;
+    color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    position: relative;
+    width: 100%;
+    min-width: 1024px; /* Force a minimum width to prevent compression */
+    justify-content: space-between; /* Ensures footer stays at the bottom */
+    margin: 0; /* Remove default margin */
+}
+
+/* === Animated Background Circles === */
+body::before, body::after {
+    content: "";
+    position: fixed;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #00f2ff66, transparent 70%);
+    animation: float 10s ease-in-out infinite;
+    z-index: 0;
+}
+
+body::after {
+    left: 70%;
+    top: 20%;
+    background: radial-gradient(circle, #ff00cc66, transparent 70%);
+    animation-delay: 5s;
+}
+
+body::before {
+    left: -100px;
+    top: 60%;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px) scale(1);
+    }
+    50% {
+        transform: translateY(-30px) scale(1.1);
+    }
+}
+
+/* HEADER / NAVBAR */
+header {
+    background: #1e272e;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+    letter-spacing: 1px;
+}
+
+nav {
+    display: flex;
+    gap: 20px;
+}
+
+nav a {
+    color: #f1f1f1;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 15px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+nav a:hover {
+    background-color: #00d8ff;
+    color: #000;
+    box-shadow: 0 0 10px #00d8ff;
+}
+
+nav a.active {
+    background-color: #00d8ff;
+    color: #000;
+}
+
+/* MAIN CONTENT */
+main {
+    flex: 1;
+    padding: 60px 20px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: #f1f1f1;
+    margin: 40px auto;
+    width: 90%;
+    max-width: 900px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+}
+
+/* FOOTER */
+footer {
+    background: #1e272e;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 14px;
+    z-index: 10;
+    margin-top: auto; /* Pushes the footer to the bottom */
+}
+
+/* Roles Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+th, td {
+    border: 1px solid #444;
+    padding: 12px;
+    text-align: center;
+    font-size: 16px;
+}
+
+th {
+    background-color: #333;
+    color: #00d8ff;
+}
+
+td input, td select {
+    background: transparent;
+    border: none;
+    color: #fff;
+    text-align: center;
+    font-size: 16px;
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    outline: none;
+}
+
+td input:focus, td select:focus {
+    background-color: #444;
+}
+
+/* Buttons Styling */
+button {
+    background-color: #00f2ff;
+    color: #000;
+    border: none;
+    padding: 12px 20px;
+    margin-top: 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
+}
+
+button:hover {
+    background-color: #00d8ff;
+    transform: scale(1.05);
+}
+
+button:active {
+    background-color: #00a3cc;
+}
+
+/* Add Row Button */
+button.add-role-btn {
+    background-color: #111;
+    color: #00f2ff;
+    padding: 12px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    width: 250px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
+    margin-right: 20px;
+}
+
+button.add-role-btn:hover {
+    background-color: #00f2ff;
+    color: #000;
+    box-shadow: 0 0 18px #00f2ff;
+}
+
+button.add-role-btn:active {
+    background-color: #00a3cc;
+}
+
+/* Miscellaneous */
+h1 {
+    font-size: 32px;
+    color: #00f2ff;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+button.save-btn {
+    background-color: #00d8ff;
+    color: #000;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-weight: bold;
+    width: 200px;
+    margin-top: 30px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button.save-btn:hover {
+    background-color: #00f2ff;
+    transform: scale(1.05);
+}
+
+button.save-btn:active {
+    background-color: #00a3cc;
+}
+
+#botLogsContainer {
+    overflow-x: auto;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #000;
+    border-radius: 10px;
+    box-shadow: inset 0 0 10px #00f2ff66;
+    max-height: 500px;
+    white-space: pre;
+}
+
+.log-box {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    line-height: 1;
+    color: #00f2ff;
+    background-color: #000;
+    padding: 20px;
+}
+
+/* Disable Mobile Responsive Adjustments */
+@media screen and (max-width: 10000px) {
+    body {
+        width: 100%;
+        min-width: 1024px; /* Ensure layout doesn't collapse for mobile */
+        overflow-x: hidden;
+    }
+
+    header, footer {
+        padding: 15px 30px; /* Consistent padding */
+    }
+
+    main {
+        width: 90%; /* Keep the content width consistent */
+        max-width: 900px; /* Maintain max width */
+        margin: 0 auto;
+    }
+
+    nav {
+        display: flex;
+        gap: 20px;
+    }
+
+    .content {
+        max-width: 100%; /* Prevent compression */
+    }
+}
+
+/*Plugins Design*/
+.plugin-settings {
+    background-color: rgba(30, 39, 46, 0.9); /* Dark background with slight transparency */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+    border-radius: 8px; /* Rounded corners */
+    padding: 20px; /* Inner spacing */
+    margin: 20px auto; /* Center alignment with spacing */
+    max-width: 600px; /* Limit the width */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+    color: #f1f1f1; /* Light text color */
+}
+
+.plugin-settings h2 {
+    font-size: 1.5rem; /* Larger font size */
+    color: #00d8ff; /* Accent color for heading */
+    margin-bottom: 15px; /* Space below the heading */
+    text-align: center; /* Center the heading */
+}
+
+.plugin-settings form label {
+    font-weight: bold; /* Bold labels */
+    color: #f1f1f1; /* Light text color */
+}
+
+.plugin-settings form input[type="checkbox"] {
+    margin-right: 10px; /* Space between checkbox and label */
+}
+
+.plugin-settings form textarea {
+    width: 100%; /* Full width */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+    border-radius: 4px; /* Rounded corners */
+    padding: 10px; /* Inner spacing */
+    font-family: Arial, sans-serif; /* Consistent font */
+    font-size: 1rem; /* Readable font size */
+    background-color: rgba(255, 255, 255, 0.1); /* Darker background for textarea */
+    color: #f1f1f1; /* Light text color */
+}
+
+.plugin-settings form textarea:focus {
+    border-color: #00d8ff; /* Highlight border on focus */
+    outline: none; /* Remove default outline */
+}
+
+.plugin-settings form button {
+    background-color: #00d8ff; /* Accent color for button */
+    color: #000; /* Dark text for contrast */
+    border: none; /* Remove border */
+    border-radius: 4px; /* Rounded corners */
+    padding: 10px 20px; /* Button padding */
+    font-size: 1rem; /* Font size */
+    cursor: pointer; /* Pointer cursor */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effect */
+    box-shadow: 0 0 10px rgba(0, 216, 255, 0.5); /* Glow effect */
+}
+
+.plugin-settings form button:hover {
+    background-color: #00a3cc; /* Darker blue on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+/* Plugin Container */
+.plugin-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive grid */
+    gap: 20px; /* Space between buttons */
+    justify-items: center; /* Center align buttons */
+    margin-top: 20px; /* Add spacing above */
+    width: 100%;
+}
+
+/* Plugin Buttons */
+.plugin-btn {
+    display: block;
+    text-align: center;
+    background-color: #00d8ff; /* Button background color */
+    color: #000; /* Text color */
+    padding: 15px 20px; /* Button padding */
+    border-radius: 10px; /* Rounded corners */
+    text-decoration: none; /* Remove underline */
+    font-weight: bold; /* Bold text */
+    font-size: 16px; /* Font size */
+    transition: all 0.3s ease; /* Smooth hover effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+.plugin-btn:hover {
+    background-color: #00a3cc; /* Darker blue on hover */
+    color: #fff; /* White text on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+}

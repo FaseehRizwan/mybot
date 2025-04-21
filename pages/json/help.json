@@ -1,0 +1,5 @@
+{
+    "enabled": true,
+    "responseText": "Here are the available commands:\n!help - Show this help message\n!welcome - Configure welcome messages\n!about - Learn more about the bot",
+    "cooldownTime": 10
+}

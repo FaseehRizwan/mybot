@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Link Filter Settings</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>MyBot Panel</h1>
+        <nav>
+            <a href="../dashboard.html">Dashboard</a>
+            <a href="../about.html">About</a>
+            <a href="../plugins.html">Plugins</a>
+            <a href="../settings.html">Settings</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="plugin-settings">
+            <h2>🔧 Link Filter Settings</h2>
+
+            <form id="linkFilterForm">
+                <label for="enabled">
+                    <input type="checkbox" id="enabled"> Enable Link Filter
+                </label>
+                <br><br>
+
+                <label for="allowedLinks">Allowed Links (comma-separated):</label><br>
+                <textarea id="allowedLinks" rows="4" cols="50"></textarea><br><br>
+
+                <label for="allowedRoles">Allowed Roles (comma-separated):</label><br>
+                <textarea id="allowedRoles" rows="2" cols="50"></textarea><br><br>
+
+                <label for="warnMessage">Warn Message:</label><br>
+                <textarea id="warnMessage" rows="4" cols="50"></textarea><br><br>
+
+                <label for="kickMessage">Kick Message:</label><br>
+                <textarea id="kickMessage" rows="4" cols="50"></textarea><br><br>
+
+                <label for="warnEnabled">
+                    <input type="checkbox" id="warnEnabled"> Enable Warn
+                </label>
+                <br><br>
+
+                <label for="kickEnabled">
+                    <input type="checkbox" id="kickEnabled"> Enable Kick
+                </label>
+                <br><br>
+
+                <button type="submit">💾 Save Changes</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2025 MyBot Panel | Built with ❤️ by Faseeh
+    </footer>
+
+    <script>
+    const currentPath = window.location.pathname;
+    document.querySelectorAll("nav a").forEach(link => {
+        if (link.getAttribute("href") === currentPath) {
+            link.classList.add("active");
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        fetch('json/linkFilter.json')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('enabled').checked = data.enabled;
+                document.getElementById('allowedLinks').value = data.allowedLinks.join(', ');
+                document.getElementById('allowedRoles').value = data.allowedRoles.join(', ');
+                document.getElementById('warnMessage').value = data.warnMessage;
+                document.getElementById('kickMessage').value = data.kickMessage;
+                document.getElementById('warnEnabled').checked = data.warnEnabled;
+                document.getElementById('kickEnabled').checked = data.kickEnabled;
+            });
+
+        document.getElementById('linkFilterForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const updatedConfig = {
+                enabled: document.getElementById('enabled').checked,
+                allowedLinks: document.getElementById('allowedLinks').value.split(',').map(link => link.trim()),
+                allowedRoles: document.getElementById('allowedRoles').value.split(',').map(role => role.trim()),
+                warnMessage: document.getElementById('warnMessage').value,
+                kickMessage: document.getElementById('kickMessage').value,
+                warnEnabled: document.getElementById('warnEnabled').checked,
+                kickEnabled: document.getElementById('kickEnabled').checked
+            };
+
+            const res = await fetch('/update-json/linkFilter', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updatedConfig)
+            });
+
+            if (res.ok) {
+                alert("✅ Settings updated!");
+            } else {
+                alert("❌ Failed to save settings.");
+            }
+        });
+    });
+    </script>
+</body>
+</html>

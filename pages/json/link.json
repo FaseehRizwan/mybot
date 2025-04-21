@@ -1,0 +1,9 @@
+{
+    "enabled": true,
+    "cooldownTime": 10,
+    "groups": {
+        "group1": "https://example.com/group1",
+        "group2": "https://example.com/group2",
+        "group3": "https://example.com/group3"
+    }
+}

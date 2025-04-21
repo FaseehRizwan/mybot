@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>MyBot Panel</h1>
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="about.html">About</a>
+            <a href="plugins.html">Plugins</a>
+            <a href="settings.html">Settings</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Welcome to MyBot Dashboard!</h2>
+        <p>Control your bot and monitor its status from here.</p>
+
+        <h2>Bot Controls 🚀</h2>
+        <div style="margin: 20px 0;">
+            <button onclick="startBot()" style="padding: 10px 20px; margin-right: 10px;">▶️ Start Bot</button>
+            <button onclick="stopBot()" style="padding: 10px 20px;">⛔ Stop Bot</button>
+        </div>
+
+        <div>
+            <strong>Status:</strong>
+            <span id="botStatus" style="font-weight: bold; color: gray;">Checking...</span>
+        </div>
+
+        <h3>Bot Logs 📜</h3>
+        <div id="botLogsContainer">
+            <pre id="botLogs" class="log-box">Loading logs...</pre>
+        </div>
+    </main>
+    <footer>
+        &copy; 2025 MyBot Panel | Built with ❤️ by Faseeh
+    </footer>
+    
+    <script>
+        const currentPath = window.location.pathname;
+        document.querySelectorAll("nav a").forEach(link => {
+            if (link.getAttribute("href") === currentPath) {
+                link.classList.add("active");
+            }
+        });
+
+        // Fetch bot status
+        async function fetchStatus() {
+            const res = await fetch('/bot-status');
+            const data = await res.json();
+            const statusEl = document.getElementById('botStatus');
+            if (data.running) {
+                statusEl.textContent = '🟢 Running';
+                statusEl.style.color = 'green';
+            } else {
+                statusEl.textContent = '🔴 Stopped';
+                statusEl.style.color = 'red';
+            }
+        }
+
+        // Fetch bot logs
+        async function fetchLogs() {
+            const res = await fetch('/bot-logs');
+            const data = await res.json();
+            const logsEl = document.getElementById('botLogs');
+            logsEl.textContent = data.logs; // Display logs in the dashboard
+        }
+
+        // Start bot
+        async function startBot() {
+            const res = await fetch('/start-bot', { method: 'POST' });
+            const data = await res.json();
+            alert(data.status === 'started' ? '✅ Bot Started!' : '⚠️ Bot Already Running!');
+            fetchStatus();
+        }
+
+        // Stop bot
+        async function stopBot() {
+            const res = await fetch('/stop-bot', { method: 'POST' });
+            const data = await res.json();
+            alert(data.status === 'stopped' ? '🛑 Bot Stopped!' : '❌ Bot is Not Running!');
+            fetchStatus();
+        }
+
+        // Initial status fetch and log updates every 2 seconds
+        fetchStatus();
+        setInterval(fetchLogs, 2000); // Refresh logs every 2 seconds
+    </script>
+</body>
+</html>

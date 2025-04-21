@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Plugins</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>MyBot Panel</h1>
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="about.html">About</a>
+            <a href="plugins.html">Plugins</a>
+            <a href="settings.html">Settings</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2 style="margin-bottom: 20px;">🧩 Available Plugins</h2>
+        <div class="plugin-container">
+            <a href="pages/kick.html" class="plugin-btn">Kick Command</a>
+            <a href="pages/welcome.html" class="plugin-btn">Welcome Function</a>
+            <a href="pages/help.html" class="plugin-btn">Help Command</a>
+            <a href="pages/news.html" class="plugin-btn">News Command</a>
+            <a href="pages/all.html" class="plugin-btn">!All Command</a>
+            <a href="pages/tagall.html" class="plugin-btn">TagAll Command</a>
+            <a href="pages/add.html" class="plugin-btn">Add Command</a>
+            <a href="pages/link.html" class="plugin-btn">Link Command</a>
+            <a href="pages/linkFilter.html" class="plugin-btn">Link Filter</a>
+            <a href="pages/define.html" class="plugin-btn">Define Command</a>
+            <!--   <a href="pages/" class="plugin-btn"></a>   -->
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2025 MyBot Panel | Built with ❤️ by Faseeh
+    </footer>
+
+    <script>
+        const currentPath = window.location.pathname;
+        document.querySelectorAll("nav a").forEach(link => {
+            if (link.getAttribute("href") === currentPath) {
+                link.classList.add("active");
+            }
+        });
+    </script>
+</body>
+</html>

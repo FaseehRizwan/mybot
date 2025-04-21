@@ -1,0 +1,8 @@
+{
+    "enabled": true,
+    "allowedLinks": ["example.com", "mybot.com"],
+    "allowedRoles": ["admin", "master"],
+    "warnMessage": "⚠️ @user, links are not allowed in this group. Please refrain from sharing links.",
+    "kickMessage": "❌ @user has been removed from the group for sharing unauthorized links.",
+    "action": "kick" 
+}

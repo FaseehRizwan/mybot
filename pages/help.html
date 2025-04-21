@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Help Command</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>MyBot Panel</h1>
+        <nav>
+            <a href="../dashboard.html">Dashboard</a>
+            <a href="../about.html">About</a>
+            <a href="../plugins.html">Plugins</a>
+            <a href="../settings.html">Settings</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="plugin-settings">
+            <h2>🔧 Help Command Settings</h2>
+
+            <form id="helpForm">
+                <label for="enabled">
+                    <input type="checkbox" id="enabled"> Enable Command
+                </label>
+                <br><br>
+
+                <label for="responseText">Help Response Text:</label><br>
+                <textarea id="responseText" rows="8" cols="50"></textarea><br><br>
+
+                <label for="cooldownTime">Cooldown Time (seconds):</label><br>
+                <input type="number" id="cooldownTime" min="1"><br><br>
+
+                <button type="submit">💾 Save Changes</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2025 MyBot Panel | Built with ❤️ by Faseeh
+    </footer>
+
+    <script>
+    const currentPath = window.location.pathname;
+    document.querySelectorAll("nav a").forEach(link => {
+        if (link.getAttribute("href") === currentPath) {
+            link.classList.add("active");
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        fetch('json/help.json')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('enabled').checked = data.enabled;
+                document.getElementById('responseText').value = data.responseText;
+                document.getElementById('cooldownTime').value = data.cooldownTime;
+            });
+
+        document.getElementById('helpForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const updatedConfig = {
+                enabled: document.getElementById('enabled').checked,
+                responseText: document.getElementById('responseText').value,
+                cooldownTime: parseInt(document.getElementById('cooldownTime').value, 10)
+            };
+
+            const res = await fetch('/update-json/help', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updatedConfig)
+            });
+
+            if (res.ok) {
+                alert("✅ Settings updated!");
+            } else {
+                alert("❌ Failed to save settings.");
+            }
+        });
+    });
+    </script>
+</body>
+</html>

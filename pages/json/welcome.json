@@ -1,0 +1,15 @@
+{
+    "enabled": true,
+    "welcomeMessages": [
+        "Welcome @{{user}} to the group!",
+        "Hello @{{user}}, glad to have you here!",
+        "Hey @{{user}}, welcome aboard!",
+        "Hi @{{user}}, it's great to see you here!",
+        "Greetings @{{user}}, welcome to our community!",
+        "Welcome @{{user}}, we're excited to have you join us!",
+        "Hey @{{user}}, make yourself at home!",
+        "Hello @{{user}}, we're thrilled to have you here!",
+        "Hi @{{user}}, welcome to the team!",
+        "Welcome @{{user}}, let's make great things happen together!"
+    ]
+}

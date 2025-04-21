@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>About</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<script>
+    const currentPath = window.location.pathname;
+    document.querySelectorAll("nav a").forEach(link => {
+        if (link.getAttribute("href") === currentPath) {
+            link.classList.add("active");
+        }
+    });
+</script>
+
+
+
+<body>
+    <header>
+        <h1>MyBot Panel</h1>
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="about.html">About</a>
+            <a href="plugins.html">Plugins</a>
+            <a href="settings.html">Settings</a>
+        </nav>
+    </header>
+
+    <main>This page will contain details about the system.</main>
+
+    <footer>
+        &copy; 2025 MyBot Panel | Built with ❤️ by Faseeh
+    </footer>
+</body>
+</html>

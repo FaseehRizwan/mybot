@@ -1,0 +1,9 @@
+{
+  "enabled": true,
+  "cooldownTime": 10,
+  "news": [
+    "Welcome to MyBot! 🎉",
+    "New feature: !news command is now live!",
+    "Stay tuned for more updates."
+  ]
+}

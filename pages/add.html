@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Command</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>MyBot Panel</h1>
+        <nav>
+            <a href="../dashboard.html">Dashboard</a>
+            <a href="../about.html">About</a>
+            <a href="../plugins.html">Plugins</a>
+            <a href="../settings.html">Settings</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="plugin-settings">
+            <h2>🔧 Add Command Settings</h2>
+
+            <form id="addForm">
+                <label for="enabled">
+                    <input type="checkbox" id="enabled"> Enable Command
+                </label>
+                <br><br>
+
+                <button type="submit">💾 Save Changes</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2025 MyBot Panel | Built with ❤️ by Faseeh
+    </footer>
+
+    <script>
+    const currentPath = window.location.pathname;
+    document.querySelectorAll("nav a").forEach(link => {
+        if (link.getAttribute("href") === currentPath) {
+            link.classList.add("active");
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        fetch('json/add.json')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('enabled').checked = data.enabled;
+            });
+
+        document.getElementById('addForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const updatedConfig = {
+                enabled: document.getElementById('enabled').checked
+            };
+
+            const res = await fetch('/update-json/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updatedConfig)
+            });
+
+            if (res.ok) {
+                alert("✅ Settings updated!");
+            } else {
+                alert("❌ Failed to save settings.");
+            }
+        });
+    });
+    </script>
+</body>
+</html>
